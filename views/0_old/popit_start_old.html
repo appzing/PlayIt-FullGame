@@ -1,0 +1,138 @@
+<html>
+<head>
+	<title></title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<style type="text/css">
+		* {
+			margin: 0px;
+		}
+
+		#wrapper {
+			height: 960px; width: 540px;
+			background-image: url('./../images/pop/background.png');
+			text-align: center;
+			color: white;
+		}
+
+		#instructions {
+			padding-top: 200px;
+		}
+
+		.huge {
+			font-size: 60px;
+		}
+
+		.balloon {
+			position: absolute;
+		}
+
+	</style>
+</head>
+<body>
+	<div id='wrapper'>
+		<div id='instructions'>
+			<h1>Tap the balloon below to</h1>
+			<h1 class='huge'>Pop It</h1>
+			<h1>Before it flies away!</h1>
+		</div>
+		<div id='balloons'>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+
+	function Balloon(id, x, y) {
+		this.info = { id: id, x: x, y: y, pop: false };
+	}
+
+	Balloon.prototype.detectPop = function(x, y) {
+		var that = this;
+		var x_cent = this.info.x + 50;
+		var y_cent = this.info.y + 67;
+		var delta = getDistance(x, x_cent, y, y_cent);
+		if (delta <= 50) {
+			var el = document.getElementById(that.info.id);
+			if (el) {
+				el.remove();
+				that.info.pop = true;
+			}
+		}
+
+		function getDistance (x1, x2, y1, y2){
+			return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		}
+	}
+
+	function Game() {
+		var that = this;
+		this.balloons = [];
+		this.id = 1;
+		this.html = '';
+
+		this.gameLoop = function() {
+			that.updateBalloons();
+			that.drawBalloons();
+		}
+
+		this.makeBalloon();
+		this.drawBalloons();
+	}
+
+	Game.prototype.makeBalloon = function() {
+		if (this.id <= 10) {
+			var x = Math.floor(Math.random()*440);
+			var y = 800;
+			this.balloon = new Balloon(this.id, x, y); 
+			this.balloons[this.id] = this.balloon;
+			this.id++;
+		}
+	}
+
+	Game.prototype.drawBalloons = function() {
+		var el = document.getElementById('balloons');
+		var html = '';
+		for (var i in this.balloons) {
+			if (this.balloons[i].info.pop == false) {
+				html += "<img id='" + this.balloons[i].info.id + "' class='balloon' src='./../images/pop/balloon.png' style='left:" + this.balloons[i].info.x + "px; top:" + this.balloons[i].info.y + "px;'>";
+			}
+		}
+		el.innerHTML = html;
+	}
+
+	Game.prototype.updateBalloons = function() {
+		for (var i in this.balloons) {
+			var el = document.getElementById(this.balloons[i].info.id);
+			if (this.balloons[i].info.pop == true) {
+				if (el) {
+					el.remove();
+				}
+			}
+			else if (this.balloons[i].info.pop == false) {
+				this.balloons[i].info.y -= 10;
+				el.style.top = this.balloons[i].info.y;
+			}
+		}
+	}
+
+	
+
+
+	var game = new Game();
+	game.gameLoop();
+
+	function balloonMaker() {
+		game.makeBalloon();
+		game.drawBalloons();
+	}
+
+	document.onclick = function(e) {
+		for (var i in game.balloons) {
+			game.balloons[i].detectPop(e.x, e.y);
+		}
+	}
+
+	setInterval(game.gameLoop, 100);
+	setInterval(balloonMaker, 1000);
+
+</script>
+</html>

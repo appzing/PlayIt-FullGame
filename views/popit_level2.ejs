@@ -1,0 +1,245 @@
+<html>
+<head>
+	<meta name="viewport" content="width=1080, user-scalable=no">
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style_popit.css">
+	<script type="text/javascript">
+
+		function Balloon(id, x, y) {
+			this.info = { id: id, x: x, y: y };
+		}
+
+		function Game() {
+			var that = this;
+
+			this.info = { result: undefined, score: 0, time: 30, pops: 0 };
+			this.theme_music = new Audio('./../sounds/theme_song.mp3');
+
+			this.balloons;
+			this.id;
+			this.map;
+
+			this.main;
+			this.mainTime;
+
+			this.drawBalloons = function() {
+				var html = '';
+				for (var i in this.balloons) {
+					html += "<img id='" + this.balloons[i].info.id +
+						"' class='balloon' src='./../images/pop/balloon.png' style='left:" +
+						this.balloons[i].info.x + "px; top:" + this.balloons[i].info.y + "px;'>";
+				}
+				document.getElementById('balloons').innerHTML = html;
+			}
+
+			this.updateBalloons = function () {
+				for (var i=0; i<this.balloons.length; i++) {
+					if (this.balloons[i].info.y <= -260) {
+						document.getElementById(this.balloons[i].info.id).remove();
+						this.deleteBalloon(i);
+						i--;
+					}
+					else {
+						this.balloons[i].info.y -= 20;
+						document.getElementById(this.balloons[i].info.id).style.top = this.balloons[i].info.y;
+					}
+				}
+
+				if (this.info.pops == this.info.result || this.balloons.length == 0) {
+					document.getElementById('instructions').innerHTML = '';
+					var el = document.getElementById('continue');
+					el.innerHTML = "<div class='vert-top'><button class='green_btn huge_button'>Continue</button></div>";
+					clearInterval(this.main);
+				}
+
+				if (this.info.pops == this.info.result) {
+					var sound = new Audio('./../sounds/pop/hooray.mp3');
+					sound.play();	
+				}
+				else if (this.balloons.length == 0) {
+					var sound = new Audio('./../sounds/pop/doh.wav');
+					sound.play();
+				}
+			}
+
+			this.popBalloons = function (x, y) {
+				if (this.balloons) {
+					for (var i=0; i<this.balloons.length; i++) {
+						var x_cent = this.balloons[i].info.x + 100;
+						var y_cent = this.balloons[i].info.y + 130;
+						var delta = getDistance (x, x_cent, y, y_cent);
+						if (delta <= 100) {
+							this.info.pops++;
+							document.getElementById(this.balloons[i].info.id).remove();
+							this.deleteBalloon(i);
+							i--;
+							if (10 - this.balloons.length <= this.info.result) {
+								this.info.score += 100;
+								document.getElementById('score').innerHTML = "Score: " + this.info.score;
+								var sound = new Audio('./../sounds/pop/balloon_pop.wav');
+								sound.play();
+							}
+							else {
+								this.info.score -= 200;
+								document.getElementById('score').innerHTML = "Score: " + this.info.score;
+								var sound = new Audio('./../sounds/pop/doh.wav');
+								sound.play();
+							}
+						}
+					}
+				}
+
+				function getDistance (x1, x2, y1, y2){
+					return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+				}
+			}
+
+			this.deleteBalloon = function(i) {
+				var temp = this.balloons[i];
+				this.balloons[i] = this.balloons[this.balloons.length-1];
+				this.balloons[this.balloons.length-1] = temp;
+				this.balloons.pop();
+			}
+
+			this.initialize = function() {
+				this.info.pops = 0;
+				this.balloons = [];
+				this.id = 1;
+				this.map = [
+					[0, 0, 0, 0, 0],
+					[1, 1, 0, 1, 1],
+					[1, 1, 1, 1, 1],
+					[1, 1, 1, 1, 1],
+					[1, 1, 1, 1, 1],
+					[1, 1, 1, 1, 1]
+				];
+
+				this.makeBalloonLoop();
+				this.setInstructions();
+				this.main = setInterval(this.mainLoop, 100);
+				this.mainTime = setInterval(this.timeLoop, 1000);
+			}
+
+			this.setInstructions = function() {
+				this.info.result = Math.ceil(Math.random()*8 + 1);
+				document.getElementById('continue').innerHTML = '';
+				var el = document.getElementById('instructions');
+				el.innerHTML = "<h1 class='gigantic'>" + this.info.result + "</h1>";
+			}
+
+			this.mainLoop = function() {
+				that.updateBalloons();
+			}
+
+			this.timeLoop = function() {
+				that.info.time--;
+				document.getElementById('time').innerHTML = that.info.time;
+
+				if (that.info.time == 0) {
+
+					clearInterval(that.mainTime);
+					clearInterval(that.main);
+					that.theme_music.pause();
+
+					document.getElementById('instructions').innerHTML = '';
+					document.getElementById('balloons').innerHTML = '';
+					that.balloons = {};
+					var el = document.getElementById('game_over');
+					
+					if (that.info.score > 3000) {
+						el.innerHTML = "<div class='vert-cent'>" + 
+								"<button class='green_btn button'><a href='popit_level2'>Next Level</a></button>" + 
+								"<button class='red_btn button'><a href='/'>Go Home</a></button>" + 
+							"</div>";
+						document.getElementById('end').innerHTML = "<h1 class='huge'>You Win!</h1>";
+						var sound = new Audio('./../sounds/pop/tada.wav');
+						sound.play();
+					}
+					else {
+						el.innerHTML = "<div class='vert-cent'>" + 
+								"<button class='green_btn button'><a href='popit_start'>New Game</a></button>" + 
+								"<button class='red_btn button'><a href='/'>Go Home</a></button>" + 
+							"</div>";
+						document.getElementById('end').innerHTML = "<h1 class='huge'>You Lose!</h1>";
+						var sound = new Audio('./../sounds/pop/doh.wav');
+						sound.play();
+					}
+				}
+			}
+
+			this.makeBalloonLoop = function() {
+				for (var i=0; i<10; i++) {
+					var x = Math.floor(Math.random()*5);
+					var y = Math.floor(Math.random()*6);
+
+					if (this.map[y][x] == 1) {
+						this.map[y][x] = 0;
+					}
+					else {
+						while (this.map[y][x] == 0) {
+							x = Math.floor(Math.random()*5);
+							y = Math.floor(Math.random()*6);
+						}
+						this.map[y][x] = 0;
+					}
+
+					x = x * 200 + 40;
+					y = y * 260 + 120;
+
+					this.balloon = new Balloon(i, x, y);
+					this.balloons[i] = this.balloon;
+					this.drawBalloons();
+				}
+			}
+
+			document.onclick = function(e) {
+				that.popBalloons(e.x, e.y);
+			}
+
+			$('#start').click(function() {
+				that.theme_music.play();
+				$('#rules').fadeOut('slow', function(){
+					that.initialize();
+				});
+				$('#start').fadeOut('slow');
+			})
+
+			$('#continue').on('click', function() {
+				document.getElementById('continue').innerHTML = '';
+				document.getElementById('end').innerHTML = '';
+				clearInterval(that.mainTime);
+				that.initialize();
+			})
+		}
+
+		$(document).ready(function(){
+			var game = new Game();
+		})
+	</script>
+</head>
+<body>
+	<div id='wrapper'>
+		<div id='info'>
+			<h3 id='name' class='inline'>Hi Jeremy!</h3>
+			<h3 id='time' class='inline center red'>30</h3>
+			<h3 id='score' class='inline right'>Score: 0</h3>
+		</div>
+		<div id='rules'>
+			<h1 class='large'>LEVEL2 RULES</h1><br>
+			<h1 class='medium'>For each round...</h1><br>
+			<h1 class='medium'>1. Pop the correct number of balloons</h1>
+			<h1 class='medium'>2. Each balloon you pop is 100 points</h1>
+			<h1 class='medium'>3. Pop too many and u lose 200 pts each</h1><br>
+			<h1 class='medium'>Play as many rounds in 30 seconds</h1>
+			<h1 class='medium'>Get 3000 points and you win!</h1>
+		</div>
+		<div id='instructions'></div>
+		<div id='start'><button class='red_btn button'>Start Game</button></div>
+		<div id='continue'></div>
+		<div id='game_over'></div>
+		<div id='end'></div>
+		<div id='balloons'></div>
+	</div>
+</body>
+</html>

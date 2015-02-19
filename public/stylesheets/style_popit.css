@@ -1,0 +1,147 @@
+* {
+	margin: 0px;
+	font-family: helvetica, arial, sans-serif;
+	text-align: center;
+
+}
+#wrapper {
+	height: 1680px; width: 1080px;
+	position: absolute;
+	background-image: url('./../images/pop/pop_background_2.jpg');
+	text-align: center;
+	color: white;
+}
+
+#info {
+	border-bottom: 5px solid white;
+	margin-bottom: 20px;
+	text-align: left;
+	font-size: 50px;
+	padding: 0px 20px;
+}
+
+#end {
+	position: absolute;
+	width: 100%;
+	top: 600px;
+	text-align: center;
+	color: green;
+	font-size: 100px;
+}
+
+#instructions {
+	position: absolute;
+	width: 100%;
+	top: 0px;
+}
+
+.vert-top {
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+}
+
+.vert-cent {
+	position: absolute;
+	top: 850px;
+	width: 100%;
+	text-align: center;
+}
+
+.gigantic {
+	font-size: 500px;
+}
+
+.huge {
+	font-size: 160pt;
+	color: white;
+}
+
+.large {
+	font-size: 80pt;
+	color: white;
+}
+
+.medium {
+	font-size: 40pt;
+}
+
+.inline {
+	display: inline-block; vertical-align: top;
+}
+
+h3.inline {
+	width: 450px;
+	text-align: left;
+	padding: 0px;
+	font-weight: 400;
+}
+
+h3.right {
+	text-align: right;
+}
+
+h3.center {
+	width: 110px;
+	text-align: center;
+}
+
+.left {
+	text-align: left;
+}
+
+h3.red {
+	color: red;
+	font-weight: 800;
+}
+
+.balloon {
+	position: absolute;
+}
+
+.red_btn{
+	background: linear-gradient(#F78181, #FE2E2E, #F78181);
+	border: 4px solid #FF0000;
+}
+
+.green_btn {
+	background: linear-gradient(#82FA58,#31B404,#82FA58);
+	border: 4px solid #04B404;
+}
+
+.button {
+	height: 150px; width: 150px;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: 26pt; 
+	color: white;
+	text-decoration: none;
+	text-align: center;
+}
+
+.huge_button {
+	height: 300px; width: 300px;
+	border-radius: 25px;
+	margin-top: 100px;
+	font-weight: bold;
+	font-size: 50px; 
+	color: white;
+	text-decoration: none;
+	text-align: center;
+
+}
+
+button {
+	margin: 20px;
+	vertical-align: top;
+}
+
+a {
+	color: white;
+	font-weight: bold;
+	font-size: 26pt; 
+	text-decoration: none;
+	text-align: center;
+}

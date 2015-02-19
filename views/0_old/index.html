@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>PlayIt</title>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function (){
+
+		$('button').click(function (){
+
+			var user_name = prompt("What is your name?");
+			alert(user_name);
+		})
+	})
+	</script> 
+</head>
+<body>
+	<div id="wrapper" class="pop_background">
+		<div id="content">
+			<h1 class="huge">PlayIt</h1>
+			<h3 class="large">Choose a game.</h3>
+
+			<button id="catch_icon"><a href="views/catchit.html">CatchIt</a></button>
+			<button id="match_icon"><a href="views/matchit.html">MatchIt</a></button>
+			<button id="pop_icon"><a href="views/popit.html">PopIt</a></button>
+		</div>
+	</div>
+
+</body>
+</html>

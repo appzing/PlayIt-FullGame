@@ -1,0 +1,158 @@
+<html>
+<head>
+	<title>MatchIt</title>
+	<link rel="stylesheet" type="text/css" href="./../stylesheets/style.css">
+	<link rel="stylesheet" type="text/css" href="./../stylesheets/style_matchit.css">
+</head>
+<body>
+	<div id="wrapper" class="match_background">
+		<div id="scores">
+			<h3 style="display:inline-block; position:absolute;">Score: 0</h3>
+			<h3 style="display:inline-block; margin-left:250px;">Level: 1</h3>
+		</div>
+		<div id="bubbles"></div>
+		<div id="balls"></div>
+		<div id="dog"></div>
+	</div>
+</body>
+	<script>
+
+	// BUBBLE CLASS:
+		function Bubble (top,left,height,width,id){
+			// Each bubble will have these properities, copied for every bubble
+			this.info = {
+				top: top,
+				left: left,
+				height: height,
+				width: width,
+				id: id
+			}
+		}
+		Bubble.prototype.drawBubble = function (html){
+		// Prototype method isn't copied for every bubble, only accessed when called upon
+			var bubble = document.getElementById('bubbles');
+			// getElementById assess first element w/ specified id (bubbles div)
+			bubble.innerHTML = html;
+			// innerHTML property sets or returns the html connect of an element (inner HTML)
+			// bubble gets bubble div & sets its inner html to = 'html' (whatever we passed thru as html)
+		}
+		Bubble.prototype.updateBubble = function(counter,callback){
+			if(counter % 2 == 0){ // If counter = even, float down
+				this.info.top +=10;
+			}
+			else{ // If counter = odd, float up
+				this.info.top -=10;
+			}
+			document.getElementById(this.info.id).style.top = this.info.top;
+			// Gets element by id #, sets top position of element to updated 'this.info.top' value
+			var output = document.getElementById('bubbles').innerHTML;
+			// Updated bubbles div = output & pass it thru the call back function we need (see where updateBubble();)
+			callback(output);
+		}
+
+
+	// DOG CLASS:
+		function Dog (top,left,object) {
+			this.info = {
+				top: top,
+				left: left,
+				object: object // Use for image.png
+			}
+			this.drawDog = function (){
+				var dog = document.getElementById('dog');
+				dog.innerHTML = "<img src='./../images/match/dog.png' style='top:" + this.info.top + "px; left:" + this.info.left + "px'  class='matchthis'/>";
+			}
+			this.updateDog = function (key){
+				if(key == 38){ // Shoot arrow
+				}
+				else if(key == 37 && dog.info.left >= 30){ // Move left
+					dog.info.left -= 30;
+				}
+				else if(key == 39 && dog.info.left <= 400){ // Move right
+					dog.info.left += 30;
+				}
+				dog.drawDog();
+			}
+		}
+
+
+	// BALL CLASS: 
+		function Ball(top,left,id){
+			this.info = {
+				top: top,
+				left: left,
+				id: id
+			}
+		}
+		Ball.prototype.drawBall = function (){
+			var ball = document.getElementById('balls');
+			ball.innerHTML = "<img src='./../images/match/ball.png' style='top:" + this.info.top + "px; left:" + this.info.left + "px' class='ball' id='" + this.info.id + "'/>";
+		}
+		Ball.prototype.updateBall = function(key){
+			if(key == 38 && this.info.top > 0){
+				this.info.top -= 20;
+			}
+			else if(key == 37 && this.info.left >= 30){ // Move left
+				this.info.left -= 30;
+			}
+			else if(key == 39 && this.info.left <= 500){ // Move right
+				this.info.left += 30;
+			}
+			this.drawBall();
+		}
+		
+
+	// Global variables: 
+		var bubbles = [];
+		var id = 1;
+		var html = '';
+		counter = 1;
+
+
+		function mainLoop(){
+			for(var index in bubbles){ // for each index in bubbles array
+				bubbles[index].updateBubble(counter,function(output){
+					// Changing the existing to = new output
+					html = output;
+				}); 
+			} // After forloop, increment counter
+			counter ++;
+		} // This continues because the setInterval
+
+		function makeBubble(){
+			if(id < 6){
+				var width = Math.floor(Math.random()* 150) + 50;
+				x = Math.floor(Math.random()* (540 - width));
+				y = Math.floor(Math.random()*480);
+				var bubble = new Bubble(y,x,width,width,id);
+				html += "<img src='./../images/match/bubble.png' style='top:" + bubble.info.top + "px; left:" + bubble.info.left + "px; height:" + bubble.info.height + "px; width:" + bubble.info.width + "px' id='" + bubble.info.id + "'/>";
+				bubble.drawBubble(html); // passes html to drawBubbles()
+				bubbles[id] = bubble; // Sets bubbles[1] = new instance, etc
+				id++; // Increments id
+			} // This makeBubble continues because setInterval 
+		}
+
+		setInterval(makeBubble, 200);
+		setInterval(mainLoop,500);
+
+
+
+		var dog = new Dog(700,215,1);
+		dog.drawDog();
+		var ball = new Ball(625,235,1);
+		ball.drawBall();
+		document.onkeydown = function (event){ 
+		// 32 = space, 37 = left, 39 = right;
+			if(event.keyCode == 37 || event.keyCode == 39){
+				dog.updateDog(event.keyCode);
+				ball.updateBall(event.keyCode);
+			}
+			else if(event.keyCode == 38){
+				function ballLoop(){
+					ball.updateBall(event.keyCode);
+				}
+				setInterval(ballLoop, 100);
+			}
+		}
+	</script>
+</html>

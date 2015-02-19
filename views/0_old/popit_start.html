@@ -1,0 +1,158 @@
+<html>
+<head>
+	<title></title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<style type="text/css">
+		* {
+			margin: 0px;
+		}
+		#wrapper {
+			height: 960px; width: 540px;
+			background-image: url('./../images/pop/background.png');
+			text-align: center;
+			color: white;
+		}
+		#instructions {
+			padding-top: 200px;
+		}
+		.huge {
+			font-size: 60px;
+		}
+		.balloon {
+			position: absolute;
+		}
+
+		#winner {
+			position: absolute;
+			top: 300px; left: 75px;
+			color: green;
+			font-size: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id='wrapper'>
+		<div id='instructions'>
+			<h1>Tap 7 balloons and</h1>
+			<h1 class='huge'>Pop It</h1>
+			<h1>Before it flies away!</h1>
+		</div>
+		<div id='balloons'></div>
+		<div id='winner'></div>
+	</div>
+</body>
+<script type="text/javascript">
+	function Balloon(id, x, y) {
+		this.info = { id: id, x: x, y: y, pop: false };
+	}
+
+	Balloon.prototype.drawBalloon = function (balloons) {
+		var el = document.getElementById('balloons');
+		var html = '';
+		for (var i in balloons) {
+			if (balloons[i].info.pop == false) {
+				html += "<img id='" + balloons[i].info.id + "' class='balloon' src='./../images/pop/balloon.png' style='left:" + balloons[i].info.x + "px; top:" + balloons[i].info.y + "px;'>";
+			}
+		}
+		el.innerHTML = html;
+	}
+
+	Balloon.prototype.updateBalloon = function (balloons, main, sound, result) {
+		if (this.info.pop == false) {
+			this.info.y -= 10;
+			document.getElementById(this.info.id).style.top=this.info.y;
+		}
+		var pop = 0;
+		for (var i in balloons) {
+			if (balloons[i].info.pop == true) {
+				pop++;
+			}
+		}
+		if (pop == result) {
+			document.getElementById('instructions').innerHTML = "";
+			document.getElementById('winner').innerHTML = "<h1>You win!</h1>";
+			sound.win.play();
+			clearInterval(main);
+		}
+	}
+
+	Balloon.prototype.popBalloon = function (x, y, balloons) {
+		var sound = new Audio('./../sounds/pop/balloon_pop.wav');
+		var that = this;
+		var x_cent = this.info.x + 50;
+		var y_cent = this.info.y + 67;
+		var delta = getDistance (x, x_cent, y, y_cent);
+		if (delta <= 50) {
+			sound.play();
+			var el = document.getElementById(that.info.id)
+			el.remove();
+			this.info.pop = true;
+		}
+		function getDistance (x1, x2, y1, y2){
+			return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		}
+	}
+
+	var balloons = [];
+	var id = 1;
+	var result;
+	var map = [
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1]
+	];
+
+	var sound = [];
+	sound.pop = new Audio('./../sounds/pop/balloon_pop.wav');
+	sound.win = new Audio('./../sounds/pop/win.wav');
+
+	function setInstructions() {
+		result = Math.ceil(Math.random()*10);
+		document.getElementById('instructions').children[0].innerHTML = "Tap " + result + " balloons and";
+	}
+
+	function mainLoop() {
+		for (var id in balloons) {
+			balloons[id].updateBalloon(balloons, main, sound, result);
+		}
+	}
+
+	function makeBalloonLoop() {
+		for (var i=1; i<=10; i++) {
+			var x = Math.floor(Math.random()*5);
+			var y = Math.floor(Math.random()*7);
+			if (map[y][x] == 1) {
+				map[y][x] = 0;
+			}
+			else {
+				while (map[y][x] == 0) {
+					x = Math.floor(Math.random()*5);
+					y = Math.floor(Math.random()*7);
+				}
+				map[y][x] = 0;
+			}
+			x = x * 100 + 20;
+			y = y * 130 + 25;
+			var balloon = new Balloon(i, x, y);
+			balloons[i] = balloon;
+			balloon.drawBalloon(balloons);
+		}
+	}
+
+	document.onclick = function(e) {
+		for (var id in balloons) {
+			balloons[id].popBalloon(e.x, e.y, balloons);
+		}
+	}
+
+	makeBalloonLoop();
+	setInstructions();
+	// setInterval(makeBalloonLoop, 1000);
+	var main = setInterval(mainLoop, 100);
+	
+</script>
+</html>

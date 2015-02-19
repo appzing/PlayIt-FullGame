@@ -1,0 +1,46 @@
+<html>
+<head>
+	<meta name="viewport" content="width=1080, user-scalable=no">
+	<title>PlayIt</title>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function (){
+		var sound = new Audio('./../sounds/theme_song.mp3');
+		// $('button').click(function (){
+		// 	var user_name = prompt("What is your name?");
+		// 	alert(user_name);
+		// })
+		$('#soundOn').click(function(){
+			
+			sound.play();
+			$('#soundOn').css('display', 'none');
+			$('#soundOff').css('display', 'block');
+
+		})
+		$('#soundOff').click(function(){
+			
+			sound.pause();
+			$('#soundOff').css('display', 'none');
+			$('#soundOn').css('display', 'block');
+
+		})
+	})
+	</script> 
+</head>
+<body>
+	<div id="wrapper" class="pop_background">
+		<div id="content">
+			<h1 class="huge">PlayIt</h1>
+			<h3 class="large">Choose a game.</h3>
+
+			<button class='catch_icon icon'><a href="catchit">CatchIt</a></button>
+			<button class='match_icon icon'><a href="matchit">MatchIt</a></button>
+			<button class='pop_icon icon'><a href="popit">PopIt</a></button>
+
+			<button  class="sound" id="soundOn"></button>
+			<button class="sound" id="soundOff"></button>	
+		</div>
+	</div>
+</body>
+</html>
