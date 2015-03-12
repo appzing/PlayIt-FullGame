@@ -1,7 +1,7 @@
 <html>
 <head>
-	<meta name="viewport" content="width=540, user-scalable=no">
 	<title>MatchIt</title>
+	<meta name="viewport" content="width=1080, user-scalable=no">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./../stylesheets/style.css">
 	<link rel="stylesheet" type="text/css" href="./../stylesheets/style_matchit.css">
@@ -9,17 +9,17 @@
 <body>
 	<div id="wrapper" class="match_background">
 		<div id="scores">
-			<h2 style="display:inline-block; font-size:1.5em;">Score: <span id="points">0</span></h2>
-			<h2 style="display:inline-block; margin-left:125px; font-size:1.5em;">Level: 1</h2>
+			<h2 style="display:inline-block; font-size:3em;">Score: <span id="points">0</span></h2>
+			<h2 style="display:inline-block; margin-left:250px; font-size:3em;">Level: 1</h2>
 		</div>
 		<div id="result"></div>
 		<div id="bubbles"></div>
 		<div id="ball_div"></div>
-		<div id="main_bubble"><img src='./../images/match/thought_bubble.png' style='height:150px'><div id="picture_bubble"></div></div>
+		<div id="main_bubble"><img src='./../images/match/thought_bubble.png' style='height:300px'><div id="picture_bubble"></div></div>
 		<div id="dog"></div>
-		<img id='left' style='width:100px;height:100px;position:absolute;left:35px;top:700px;' src='./../images/match/arrow-left.png'/>
-		<img id='up' style='width:100px;height:100px;position:absolute;left:220px;top:700px;' src='./../images/match/arrow-up.png'/>
-		<img id='right' style='width:100px;height:100px;position:absolute;left:403px;top:700px;' src='./../images/match/arrow-right.png'/>
+		<img id='left' style='width:200px;height:200px;position:absolute;left:70px;top:1400px;' src='./../images/match/arrow-left.png'/>
+		<img id='up' style='width:200px;height:200px;position:absolute;left:440px;top:1400px;' src='./../images/match/arrow-up.png'/>
+		<img id='right' style='width:200px;height:200px;position:absolute;left:805px;top:1400px;' src='./../images/match/arrow-right.png'/>
 	</div>
 </body>
 	<script>
@@ -32,7 +32,7 @@
 		var counter = 1;
 		var exists = true;
 		var points = 0;
-		var dog_left = 235; // Starts here
+		var dog_left = 470; // Starts here
 		var maps = [
 					[0,0,0],
 					[0,0,0],
@@ -40,7 +40,6 @@
 				];
 		var answer = '';
 		var bubble_words = []; // Will push in words to show in bubbles (1 right, 4 wrong)
-		var setBallLoop;
 
 
 	// BUBBLE CLASS:
@@ -67,10 +66,10 @@
 		Bubble.prototype.updateBubble = function (counter,callback){
 			if(exists == true){
 				if(counter % 2 == 0){ // If counter = even, float down
-					this.info.top +=5;
+					this.info.top +=10;
 				}
 				else{ // If counter = odd, float up
-					this.info.top -=5;
+					this.info.top -=10;
 				}
 				document.getElementById(this.info.bubble_id).style.top = this.info.top;
 				// Gets element by id #, sets top position of element to updated 'this.info.top' value
@@ -137,13 +136,13 @@
 				dog.innerHTML = "<img src='./../images/match/dog.png' style='top:" + this.info.top + "px; left:" + this.info.left + "px'  class='matchthis'/>";
 			}
 			this.updateDog = function (key){
-				if(key == 37 && dog.info.left >= 15){ // Move left
-					dog.info.left -= 15;
-					dog_left = dog.info.left + 23; // Must add 45 or else, ball shifts when moving to dog's left which is a bit diff
+				if(key == 37 && dog.info.left >= 30){ // Move left
+					dog.info.left -= 30;
+					dog_left = dog.info.left + 45; // Must add 45 or else, ball shifts when moving to dog's left which is a bit diff
 				}
-				else if(key == 39 && dog.info.left <= 420){ // Move right
-					dog.info.left += 15;
-					dog_left = dog.info.left + 23; // Must add 45 or else, ball shifts when moving to dog's left which is a bit diff
+				else if(key == 39 && dog.info.left <= 840){ // Move right
+					dog.info.left += 30;
+					dog_left = dog.info.left + 45; // Must add 45 or else, ball shifts when moving to dog's left which is a bit diff
 				}
 				dog.drawDog();
 			}
@@ -153,10 +152,10 @@
 	// BALL CLASS: 
 		function Ball(ball_id){
 			this.info = {
-				top: 465,
+				top: 930,
 				left: dog_left,
-				height: 75,
-				width: 75,
+				height: 150,
+				width: 150,
 				ball_id: ball_id
 			}
 		}
@@ -165,14 +164,14 @@
 			ball.innerHTML = "<img src='./../images/match/ball.png' style='top:" + this.info.top + "px; left:" + this.info.left + "px; height:" + this.info.height + "px; width:" + this.info.width + "px' class='ball' id = '" + ball_id + "'/>";
 		}
 		Ball.prototype.updateBall = function(key){
-			if(key == 38 && this.info.top > -100){
-				this.info.top -= 15;
+			if(key == 38 && this.info.top > -200){
+				this.info.top -= 30;
 			}
-			else if(key == 37 && this.info.left >= 33){ // Move left
-				this.info.left -= 15;
+			else if(key == 37 && this.info.left >= 65){ // Move left
+				this.info.left -= 30;
 			}
-			else if(key == 39 && this.info.left <= 440){ // Move right
-				this.info.left += 15;
+			else if(key == 39 && this.info.left <= 880){ // Move right
+				this.info.left += 30;
 			}
 			this.drawBall();
 		}
@@ -200,7 +199,7 @@
 			bubble_words.push(answer); // Pushing 1 correct word into array to show as bubbles
 			// console.log(bubble_words);
 			var random_image = document.getElementById('picture_bubble');
-			random_image.innerHTML = "<img src='./../images/match/" + answer + ".png' style='height:50px' class='random_image'/>";
+			random_image.innerHTML = "<img src='./../images/match/" + answer + ".png' style='height:100px' class='random_image'/>";
 		}
 		createImage();
 
@@ -235,9 +234,9 @@
 						y = Math.floor(Math.random()*3);
 					}
 				}
-				x = x * 180 + 10;
-				y = y * 95 + 10;
-				var width = Math.floor(Math.random()*60)+45; // Generates random width of bubble
+				x = x * 190 + 20;
+				y = y * 190 + 20;
+				var width = Math.floor(Math.random()*120)+90; // Generates random width of bubble
 				var bubble = new Bubble(y,x,width,width,bubble_id,bubble_words[bubble_id]);
 				html += "<div style='top:" + bubble.info.top + "px; left:" + bubble.info.left + "px; height:" + bubble.info.height + "px; width:" + bubble.info.width + "px; display:inline-block; position:absolute; margin-top:" + bubble.info.height/2 + "px; margin-left:" + bubble.info.width/3 + "px; padding-top:" + bubble.info.height/3 + "px; background-image:url(&quot;./../images/match/bubble.png&quot;); background-size:contain; background-repeat: no-repeat; text-align:center; font-size:15pt;' id='" + bubble.info.bubble_id + "'></div>";
 				bubble.drawBubble(html); // Passes html to drawBubbles()
@@ -268,7 +267,7 @@
 		makeBall();
 		setInterval(mainLoop,500);
 
-		var dog = new Dog(555,213); // Creates dog object w/ top, left coordinates (doesn't show)
+		var dog = new Dog(1110,425); // Creates dog object w/ top, left coordinates (doesn't show)
 		dog.drawDog(); // Draws dog on html pg
 
 		document.onkeydown = function (event){
@@ -276,7 +275,7 @@
 			if(event.keyCode == 37 || event.keyCode == 39){ // If left or right, update both dog & ball
 				dog.updateDog(event.keyCode);
 				for (var c in balls){
-					if(balls[c].info.top == 465){ // Only allow ball move left/right when start w/dog
+					if(balls[c].info.top == 930){ // Only allow ball move left/right when start w/dog
 						balls[c].updateBall(event.keyCode);
 					}
 				}
@@ -292,15 +291,14 @@
 				ball2.drawBall();
 				balls[next_ball] = ball2;
 				console.log(balls);
-				clearInterval(setBallLoop);
-				setBallLoop = setInterval(ballLoop, 100);
+				setInterval(ballLoop, 100);
 			}
 		}
 		document.getElementById('left').onclick = function (event){
 			var keyCode = 37;
 			dog.updateDog(keyCode);
 			for (var c in balls){
-				if(balls[c].info.top == 465){ // Only allow ball move left/right when start w/dog
+				if(balls[c].info.top == 930){ // Only allow ball move left/right when start w/dog
 					balls[c].updateBall(keyCode);
 				}
 			}
@@ -316,14 +314,13 @@
 			var ball2 = new Ball(next_ball);
 			ball2.drawBall();
 			balls[next_ball] = ball2;
-			clearInterval(setBallLoop);
-			setBallLoop = setInterval(ballLoop, 100);
+			setInterval(ballLoop, 100);
 		}
 		document.getElementById('right').onclick = function (event){
 			var keyCode = 39;
 			dog.updateDog(keyCode);
 			for (var c in balls){
-				if(balls[c].info.top == 465){ // Only allow ball move left/right when start w/dog
+				if(balls[c].info.top == 930){ // Only allow ball move left/right when start w/dog
 					balls[c].updateBall(keyCode);
 				}
 			}
