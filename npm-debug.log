@@ -1,0 +1,89 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '--save', 'ejs@2.5.5' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'ejs@2.5.5', null ]
+6 verbose cache add name=undefined spec="ejs@2.5.5" args=["ejs@2.5.5",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'ejs@2.5.5',
+7 verbose parsed url   path: 'ejs@2.5.5',
+7 verbose parsed url   href: 'ejs@2.5.5' }
+8 verbose cache add name="ejs" spec="2.5.5" args=["ejs","2.5.5"]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: '2.5.5',
+9 verbose parsed url   path: '2.5.5',
+9 verbose parsed url   href: '2.5.5' }
+10 verbose addNamed [ 'ejs', '2.5.5' ]
+11 verbose addNamed [ '2.5.5', '2.5.5' ]
+12 silly lockFile 94dc0671-ejs-2-5-5 ejs@2.5.5
+13 verbose lock ejs@2.5.5 /Users/urmila/.npm/94dc0671-ejs-2-5-5.lock
+14 verbose request where is /ejs
+15 verbose request registry https://registry.npmjs.org/
+16 verbose request id 6a7bbafa49211ffa
+17 verbose url raw /ejs
+18 verbose url resolving [ 'https://registry.npmjs.org/', './ejs' ]
+19 verbose url resolved https://registry.npmjs.org/ejs
+20 verbose request where is https://registry.npmjs.org/ejs
+21 info trying registry request attempt 1 at 15:08:08
+22 verbose etag "5a6c75a3-120a8"
+23 http GET https://registry.npmjs.org/ejs
+24 http 304 https://registry.npmjs.org/ejs
+25 silly registry.get cb [ 304,
+25 silly registry.get   { date: 'Sat, 27 Jan 2018 23:08:08 GMT',
+25 silly registry.get     via: '1.1 varnish',
+25 silly registry.get     'cache-control': 'max-age=300',
+25 silly registry.get     etag: '"5a6c75a3-120a8"',
+25 silly registry.get     age: '7842',
+25 silly registry.get     connection: 'keep-alive',
+25 silly registry.get     'x-served-by': 'cache-pao17422-PAO',
+25 silly registry.get     'x-cache': 'HIT',
+25 silly registry.get     'x-cache-hits': '1',
+25 silly registry.get     'x-timer': 'S1517094488.407544,VS0,VE0',
+25 silly registry.get     vary: 'Accept-Encoding, Accept' } ]
+26 verbose etag https://registry.npmjs.org/ejs from cache
+27 silly lockFile 161192b3-stry-npmjs-org-ejs-ejs-2-5-5-tgz https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+28 verbose lock https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz /Users/urmila/.npm/161192b3-stry-npmjs-org-ejs-ejs-2-5-5-tgz.lock
+29 verbose addRemoteTarball [ 'https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz',
+29 verbose addRemoteTarball   '6ef4e954ea7dcf54f66aad2fe7aa421932d9ed77' ]
+30 info retry fetch attempt 1 at 15:08:08
+31 verbose fetch to= /var/folders/nh/39c7drgs3kqg_vr6dk9s8nkw0000gn/T/npm-39926-bJnfyq5P/registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+32 http GET https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+33 http 200 https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+34 silly lockFile 161192b3-stry-npmjs-org-ejs-ejs-2-5-5-tgz https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+35 silly lockFile 161192b3-stry-npmjs-org-ejs-ejs-2-5-5-tgz https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz
+36 silly lockFile 94dc0671-ejs-2-5-5 ejs@2.5.5
+37 silly lockFile 94dc0671-ejs-2-5-5 ejs@2.5.5
+38 error Error: EACCES, mkdir '/Users/urmila/.npm/ejs/2.5.5'
+38 error  { [Error: EACCES, mkdir '/Users/urmila/.npm/ejs/2.5.5']
+38 error   errno: 3,
+38 error   code: 'EACCES',
+38 error   path: '/Users/urmila/.npm/ejs/2.5.5',
+38 error   parent: 'server' }
+39 error Please try running this command again as root/Administrator.
+40 error System Darwin 17.3.0
+41 error command "node" "/usr/local/bin/npm" "install" "--save" "ejs@2.5.5"
+42 error cwd /Users/urmila/MyApps/PlayIt-FullGame
+43 error node -v v0.10.32
+44 error npm -v 1.4.28
+45 error path /Users/urmila/.npm/ejs/2.5.5
+46 error code EACCES
+47 error errno 3
+48 error stack Error: EACCES, mkdir '/Users/urmila/.npm/ejs/2.5.5'
+49 verbose exit [ 3, true ]
