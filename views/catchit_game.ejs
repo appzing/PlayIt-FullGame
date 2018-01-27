@@ -33,12 +33,12 @@
 	color:white;
 }
 .lollypop{
-	
+
 	width:80px; /* 80 */
 	height:130px; /* 130 */
 	background-size: cover;
 	background-image:url('./../images/catch/lollipop.png');
-	
+
 }
 .alpha{
 	font-family:"Comic Sans MS",helvetica,cursive, sans-serif;
@@ -70,11 +70,11 @@ width:170px; /* 170 */
 	width:75;
 }
 #points {
-width: 100;	
+width: 100;
 display: inline;
 }
 #word{
-width: 100;	
+width: 100;
 	display: inline;
 }
 .huge{
@@ -101,7 +101,7 @@ width: 100;
 	width:520px; /* 520 */
 	height:70px; /* 70 */
 	top:760px; /* 880 */
-	left:10px; /* 10 */	
+	left:10px; /* 10 */
 }
 .button{
 	font-size: 10px;
@@ -124,16 +124,16 @@ a {
 <body>
 	<div id="wrapper">
 		<div id="score">
-			<div id="image"></div>			
+			<div id="image"></div>
 			<div>Score: <div id="points"></div></div>
-			<div>Word: <div id="word"></div></div>		
+			<div>Word: <div id="word"></div></div>
 		</div>
-		<div id="pop">	
-		</div>	
+		<div id="pop">
+		</div>
 		<div id="win">
 			<!-- <h1 class="huge"> Good Job!!!</h1> -->
-		</div>	
-		<div id="kid">				
+		</div>
+		<div id="kid">
 		</div>
 		<div id="controls">
 			<!-- <button id="left" class="button"><</button><button id="middle" class="button">JUMP</button><button id="right" class="button">></button> -->
@@ -141,44 +141,45 @@ a {
 			<img class="button" id="middle" src="./../images/catch/star.png">
 			<img class="button" id="right" src="./../images/catch/right.png">
 
-		</div>	
+		</div>
 
 	</div>
 
 </body>
 <script>
 
-function CatchIt()
-{
+function CatchIt() {
 	var countArray = [0,1,2,3,4,5];
 	var elem = document.getElementById('pop');
 	var girl = new Kid();
 	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-	this.lollipopLetters = [];	
+	var map = [1, 1, 1, 1, 1, 1];
+	this.lollipopLetters = [];
 	this.word = new randomWord();
 	this.counter = 0;
 	this.lollipops = [];
 	this.spelling = this.word.spellWord();
 	this.result = [];
-	var map = [1, 1, 1, 1, 1, 1];
 	this.i = 0
 	this.score = 0;
-	this.playGame = function()
-	{		
+
+	this.playGame = function() {
 		this.dropLollipops();
-		this.updateLollipop();		
+		this.updateLollipop();
 		this.bringDown();
 	}
-	this.makeLetterArray = function()
-	{
+
+
+	this.makeLetterArray = function() {
 		this.lollipopLetters.push(letter[Math.floor(Math.random()*26)]);
 		for (var i in this.spelling){
 			this.lollipopLetters.push(this.spelling[i]);
 		}
 	}
+
 	//create a new lollipop and add it to the game
 	this.makeLollipop = function()
-	{ 
+	{
 		var alphabet = this.lollipopLetters[Math.floor(Math.random() * 4)];
 		var index = Math.floor(Math.random() * countArray.length);
 		var y = 60;
@@ -193,10 +194,10 @@ function CatchIt()
 		this.lollipops.push(newLolli);
 		//elem.innerHTML += "<img class='lollypop' id='" + newLolli.id +"' src='./../images/catch/alphabets/"+alphabet+".png' style='position:absolute;left:" + newLolli.x + " ;top:"+ newLolli.y +";'>";
 		elem.innerHTML += "<div class='lollypop' id='" + newLolli.id +"' style='position:absolute;left:" + newLolli.x + " ;top:"+ newLolli.y +";'><div class='alpha'>"+alphabet+"</div></div>";
-		
+
 	}
-	this.dropLollipops = function()
-	{
+
+	this.dropLollipops = function() {
 		for(var i=this.lollipops.length-1; i>=0; i--)
 		{
 			this.lollipops[i].y = this.lollipops[i].y + 5;
@@ -204,11 +205,11 @@ function CatchIt()
 			{
 				document.getElementById(this.lollipops[i].id).remove();
 				this.lollipops[i].exist = false;
-			}					
+			}
 		}
 	}
-	this.updateLollipop = function()
-	{
+
+	this.updateLollipop = function() {
 		for(i in this.lollipops){
 			pop = document.getElementById(this.lollipops[i].id);
 			if(pop)
@@ -217,8 +218,9 @@ function CatchIt()
 			}
 		}
 	}
-	this.checkLetter = function(letter)	
-	{	var sound = new Audio('./../sounds/catch/applause.mp3');
+
+	this.checkLetter = function(letter) {
+		var sound = new Audio('./../sounds/catch/applause.mp3');
 		var sound2 = new Audio('./../sounds/catch/hooray.mp3');
 		var points = document.getElementById('points');
 		if(this.i < 4)
@@ -227,7 +229,7 @@ function CatchIt()
 				sound2.play();
 				var result = document.getElementById('word');
 				this.score +=10;
-				result.innerHTML += letter; 
+				result.innerHTML += letter;
 				points.innerHTML = this.score;
 				this.i++;
 			}
@@ -238,34 +240,35 @@ function CatchIt()
 				sound.play();
 				clearInterval(one);
 				clearInterval(two);
-			}		
+			}
 		}
-	}		
+	}
+
 	this.detectCollision = function()
-	{ 
+	{
 		for(i in this.lollipops){
 			if(this.lollipops[i].exist == true){
-				var delta_y = girl.info.top - (this.lollipops[i].y + 130) //var delta_y = girl.info.top - (this.lollipops[i].y + 130)
-				var lx = this.lollipops[i].x + 40; //var lx = this.lollipops[i].x + 40;
+				var delta_y = girl.info.top - (this.lollipops[i].y + 130)
+				var lx = this.lollipops[i].x + 40;
 
 				if(delta_y <= 0)
 				{
-					if(lx > girl.info.left && lx < girl.info.left + 85 ) //if(lx > girl.info.left && lx < girl.info.left + 85 )
+					if(lx > girl.info.left && lx < girl.info.left + 85 )
 					{
 						var that = this.lollipops[i];
 						this.checkLetter(this.lollipops[i].alphabet);
 						document.getElementById(that.id).remove();
 						 that.exist = false;
 					}
-				} 
-			}	
+				}
+			}
 		}
 	}
-	this.bringDown = function()
-	{
+
+	this.bringDown = function() {
 		if(girl.info.jump == true ){
 			if(girl.info.top != 580) //if(girl.info.top != 700)
-			{ 
+			{
 				girl.info.top += 30;
 				girl.drawKid();
 			}
@@ -275,8 +278,10 @@ function CatchIt()
 			}
 		}
 	}
-	this.moveKid = function()
-	{	var that = this;
+
+	this.moveKid = function() {
+		var that = this;
+
 		document.onkeydown = function(e)
 		{
 			if(e.keyCode == 37 && girl.info.left >= 0)
@@ -290,14 +295,15 @@ function CatchIt()
 				girl.drawKid();
 			}
 			else if(e.keyCode == 32 || e.keyCode == 38)
-			{	
+			{
 				girl.info.top = 430; //girl.info.top = 550;
 				girl.jump(girl.info.left, girl.info.top);
 				girl.info.jump = true;
 				that.detectCollision();
-				
-			}						
+
+			}
 		}
+
 		document.getElementById('left').onclick = function(e){
 			if(girl.info.left >= 0)
 			{
@@ -306,6 +312,7 @@ function CatchIt()
 			}
 
 		}
+
 		document.getElementById('right').onclick = function(e){
 			if(girl.info.left <= 372) //if(girl.info.left <= 372)
 			{
@@ -314,6 +321,7 @@ function CatchIt()
 			}
 
 		}
+
 		document.getElementById('middle').onclick = function(e){
 				girl.info.top = 430; //girl.info.top = 550;
 				girl.jump(girl.info.left, girl.info.top);
@@ -324,12 +332,12 @@ function CatchIt()
 
 	this.makeLetterArray();
 	this.word.drawImage();
-	this.word.spellWord();	
-	girl.drawKid();	
-	this.moveKid();	
+	this.word.spellWord();
+	girl.drawKid();
+	this.moveKid();
 }
 
-function Lollipop(id, x, y, alphabet){	
+function Lollipop(id, x, y, alphabet) {
 	this.x = x;//Math.floor(Math.random()*360)+ 100;
 	this.y = y+ 40; //80;
 	this.id = id;
@@ -337,38 +345,41 @@ function Lollipop(id, x, y, alphabet){
 	this.exist = true;
 
 }
-function Kid()
-{		this.info = {
+
+function Kid() {
+		this.info = {
 			top: 580, //700
 			left: 190, //215
 			jump: false
 		}
-		this.drawKid = function()
-		{
-			var kid = document.getElementById('kid');		
+
+		this.drawKid = function() {
+			var kid = document.getElementById('kid');
 			kid.innerHTML = "<img class='kid' src='./../images/catch/girl.png' style='position:absolute;  left:"+this.info.left+"px; top:"+this.info.top+"px;'>"
 		}
-		this.jump = function(left, top)
-		{
-			var kid = document.getElementById('kid');		
-			kid.innerHTML = "<img class='kid' src='./../images/catch/girl.png' style='position:absolute;  left:"+left+"px; top:"+top+"px;'>"			
-		}		
+
+		this.jump = function(left, top) {
+			var kid = document.getElementById('kid');
+			kid.innerHTML = "<img class='kid' src='./../images/catch/girl.png' style='position:absolute;  left:"+left+"px; top:"+top+"px;'>"
+		}
 }
-function randomWord()
-{		
+
+function randomWord() {
 	var words = ['bee','hat','bus','car','cat','cow','dog','egg','pig','ant'];
 		this.word = words[Math.floor(Math.random()*10)];
-		this.drawImage = function()
-		{
-			var image = document.getElementById('image');		
+
+		this.drawImage = function() {
+			var image = document.getElementById('image');
 			image.innerHTML = "<img src='./../images/catch/words/Level1/"+this.word+".png' style='position:absolute; width:60; height:80; left:25px; top:25px;'>"
 			//image.innerHTML = "<img src='./../images/catch/words/Level1/"+this.word+".png' style='position:absolute; width:60; height:80; left:50px; top:50px; border:2px solid white;'>"
 		}
-		this.spellWord = function()
-		{	var word = this.word.toUpperCase();
-			 return word.split('');			
+
+		this.spellWord = function() {
+			var word = this.word.toUpperCase();
+			return word.split('');
 		}
-}			
+}
+
 var game = new CatchIt();
 var two = setInterval('game.playGame()', 150);
 var one = setInterval('game.makeLollipop()',1200);
